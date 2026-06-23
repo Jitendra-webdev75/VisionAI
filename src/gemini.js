@@ -1,5 +1,5 @@
-const apiKey = "AQ.Ab8RN6LB1jRT1qIy5uoD_E9CMbloDaHaC53UCAl3HoXt27NF-Q";
 import { GoogleGenAI } from "@google/genai";
+const apiKey = import.meta.env.Api_key;
 
 const ai = new GoogleGenAI({
   apiKey: apiKey,
