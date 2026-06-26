@@ -7,9 +7,15 @@ function UserContext({ children }) {
   const [response, setResponse] = useState(false);
   const speech = (text) => {
     const speech_text = new SpeechSynthesisUtterance(text);
+    const voice = window.speechSynthesis.getVoices();
+    const maleVoice = voice.find(
+      (v) => v.name.includes("Male") || v.name.includes("David"),
+    );
+
+    if (maleVoice) speech_text.voice = maleVoice;
     speech_text.volume = 1;
     speech_text.rate = 1;
-    speech_text.pitch = 1;
+    speech_text.pitch = 0.5;
     speech_text.lang = "hi-IN";
 
     window.speechSynthesis.speak(speech_text);
