@@ -7,15 +7,9 @@ function UserContext({ children }) {
   const [response, setResponse] = useState(false);
   const speech = (text) => {
     const speech_text = new SpeechSynthesisUtterance(text);
-    const voice = window.speechSynthesis.getVoices();
-    const maleVoice = voice.find(
-      (v) => v.name.includes("Male") || v.name.includes("David"),
-    );
-
-    if (maleVoice) speech_text.voice = maleVoice;
     speech_text.volume = 1;
     speech_text.rate = 1;
-    speech_text.pitch = 0.5;
+    speech_text.pitch = 1;
     speech_text.lang = "hi-IN";
 
     window.speechSynthesis.speak(speech_text);
@@ -36,7 +30,7 @@ function UserContext({ children }) {
   recognise.onresult = (e) => {
     let transcript = e.results[0][0].transcript;
     setPrompt(transcript);
-    aiResponse(transcript);
+    inputCommand(transcript.toLowerCase());
   };
   const value = {
     recognise,
@@ -45,8 +39,38 @@ function UserContext({ children }) {
     prompt,
     response,
     setResponse,
+    speech,
   };
 
+  const inputCommand = (command) => {
+    if (command.includes("open") && command.includes("youtube")) {
+      window.open("https://www.youtube.com/", "_blank");
+      speech("opening youtube");
+      setPrompt("opening youtube");
+      setTimeout(() => {
+        setSpeak(false);
+      }, 5000);
+    } else if (command.includes("open") && command.includes("google")) {
+      window.open("https://www.google.com/", "_blank");
+      speech("opening google");
+      setPrompt("opening google");
+      setTimeout(() => {
+        setSpeak(false);
+      }, 5000);
+    } else if (command.includes("time")) {
+      let time = new Date().toLocaleString(undefined, {
+        hour: "numeric",
+        minute: "numeric",
+      });
+      speech(time);
+      setPrompt(time);
+      setTimeout(() => {
+        setSpeak(false);
+      }, 5000);
+    } else {
+      aiResponse(command);
+    }
+  };
   return (
     <div>
       <dataContext.Provider value={value}>{children}</dataContext.Provider>
