@@ -46,7 +46,10 @@ function App() {
               {!response ? (
                 <img src="./listening.gif" className="w-[40vw]" />
               ) : (
-                <img src="./aiVoice.gif" className="w-[40vw]" />
+                <img
+                  src="./aiVoice.gif"
+                  className="w-[68vw] h-[12vh] rounded-b-full"
+                />
               )}
               <p className="text-[1.2rem] p-7 font-medium text-secondary dark:text-primary">
                 {prompt}

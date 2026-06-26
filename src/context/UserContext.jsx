@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import main from "../gemini";
+import main from "../groq";
 export const dataContext = createContext();
 function UserContext({ children }) {
   const [speak, setSpeak] = useState(false);
@@ -20,6 +20,9 @@ function UserContext({ children }) {
     setPrompt(text);
     speech(text);
     setResponse(true);
+    setTimeout(() => {
+      setSpeak(false);
+    }, 5000);
   };
   const speechRecognise =
     window.SpeechRecognition || window.webkitSpeechRecognition;
